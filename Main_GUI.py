@@ -123,8 +123,25 @@ def tab3_userbaidu_trans_baidumc():
 
 
 def tab3_load_trandsed_regulator():
+    open_filename = tkinter_file.askopenfilename(initialdir="/", title="Select file",
+                                                 filetypes=(("xlsx files", "*.xlsx"), ("all files", "*.*")))
+    print(open_filename)
+
+    read_path = open_filename.replace('/', "\\\\")
+    model_data_path_tab3.set(read_path)
     model_path = model_data_path_tab3.get()
     ConstantParameters.read_transed_data = Batch_read_trans_baidu.read_transed_model_data(model_path)
+
+def tab3_Load_user_baidu_mc():
+    open_filename = tkinter_file.askopenfilename(initialdir="/", title="Select file",
+                                                 filetypes=(("xlsx files", "*.xlsx"), ("all files", "*.*")))
+    print(open_filename)
+    read_path = open_filename.replace('/', "\\\\")
+    user_baidu_path_mc_tab3.set(read_path)
+    print(read_path)
+    baidumc_path = user_baidu_path_mc_tab3.get()
+    ConstantParameters.user_baidu_data_transed = Batch_read_trans_baidu.read_user_baidu_mc_data(baidumc_path)
+    print(ConstantParameters.user_baidu_data_transed)
 
 
 def match_user_regulator():
@@ -140,8 +157,8 @@ def match_user_regulator():
         # check user list , whether it fit calculate condition.
 
         for j in range(0, all_reg_list_len):
-            regtup = (reglistdata[j][4], reglistdata[j][5])  # x y value
-            usertup = (userlistdata[i][2], userlistdata[i][3])  # x y value
+            regtup = (reglistdata[j][4], reglistdata[j][5])  #  x y value
+            usertup = (userlistdata[i][2], userlistdata[i][3])  #  user x y value
 
             caldis = Batch_read_trans_baidu.calculate_distance(regtup, usertup)
             if temp_distance > caldis:
@@ -293,9 +310,19 @@ if __name__ == "__main__":
                      font=("Arial", "14"))
     b4_tab3.grid(row=3, column=1, sticky=W)
 
+    l3_tab3 = Label(frame_c, text="用户-百度墨卡托数据:", font=('Arial', 14))
+    l3_tab3.grid(row=2, column=0, sticky=W)
+    load_baidumc_tab3 = Button(frame_c, text='Load', command=tab3_Load_user_baidu_mc, width=7, font=("Arial", "14"))
+    load_baidumc_tab3.grid(row=2, column=2, sticky=W)
+    user_baidu_path_mc_tab3 = StringVar()
+    baidumc_tab3 = Entry(frame_c, textvariable=user_baidu_path_mc_tab3, width=60)
+    baidumc_tab3.grid(row=2, column=1, sticky=W)
+
+
+
     scroll_text_tab3 = ScrolledText(frame_c, width=60, height=15)
 
-    scroll_text_tab3.grid(row=4, column=1, sticky=W + E)
+    scroll_text_tab3.grid(row=5, column=1, sticky=W + E)
 
     frame_c.pack()
     nb.pack(anchor=NW,expand=1, fill="both")
