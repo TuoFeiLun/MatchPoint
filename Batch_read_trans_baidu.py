@@ -53,7 +53,7 @@ def read_transed_model_data(filepath):
     ws_1 = wb.active
 
     all_reg_list = []
-    maxrow = ws_1.max_row
+    maxrow = ws_1.max_row+1
     # read reg x y   to list
     for i in range(1, maxrow):
         name = "A" + str(i)
@@ -147,7 +147,19 @@ def calculate_distance(regulator : tuple ,user : tuple) -> float:
     return distance
 
 
+def read_user_baidu_mc_data(filepath):
+    wb = load_workbook(filename=filepath)
+    ws_1 = wb.active
+    all_user_baidu_mc_data = []
+    maxrow = ws_1.max_row + 1
+    # read reg x y   to list
+    for i in range(1, maxrow):
+        name = "A" + str(i)
+        user_lnglat = 'B' + str(i)
+        xcor = 'C' + str(i)
+        ycor = 'D' + str(i)
 
+        one_list = [ws_1[name].value, ws_1[user_lnglat].value, ws_1[xcor].value, ws_1[ycor].value]
+        all_user_baidu_mc_data.append(one_list)
 
-
-
+    return all_user_baidu_mc_data
